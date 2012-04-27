@@ -1,11 +1,12 @@
 A shared library that puts your program into an infinite loop when it segfaults
 =============================
 
-``Problem:`` A bad program can causes segfault.  You want to poke around
+``Problem:`` A bad program can cause segfault.  You want to poke around
 but don't want to or can't recompile the source.
 
 ``This tool:`` This shared library will install a SIGSEGV handler and
-go into infinite loop when segmentation fault occur so you can gdb attach to it.
+go into infinite loop when a segmentation fault occur so you can gdb
+attach to it.
 
 ``TODO:``
 
