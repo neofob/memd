@@ -15,6 +15,8 @@
 #include <unistd.h>
 #include <stdio.h>
 
+char buffer[256];
+
 void memd_sigsegv_handler(int signo, siginfo_t *info, void* context);
 
 void __attribute__ ((constructor))
@@ -36,8 +38,16 @@ void
 memd_sigsegv_handler(int signo, siginfo_t *info, void* context)
 {
   volatile long mdebug = 0;
-  fprintf(stderr, "Segmentation fault occurred at address %#x\n", (long) (void*) info->si_addr);
-  fprintf(stderr, "Process id %d thread id %#x\n", getpid(), pthread_self());
+  int c;
+  c = snprintf(buffer, 256, "Segmentation fault occurred at address %#x\n", (long) (void*) info->si_addr);
+  buffer[c] = '\0';
+  c++;
+  write(2, buffer, c);
+
+  c = snprintf(buffer, 256, "Process id %d thread id %#x\n", getpid(), pthread_self());
+  buffer[c] = '\0';
+  c++;
+  write(2, buffer, c);
 
   while (0 == mdebug)
   {
